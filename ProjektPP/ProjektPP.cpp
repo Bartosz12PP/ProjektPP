@@ -10,10 +10,11 @@ double infectionRate = 0.20;
 double recoveryRate = 0.10;
 void showPopulation();
 void simulateDay();
+bool checkPopulation();
 
 int main()
 {
-    
+    showPopulation();
     //showPopulation(day, susceptible, infected, recovered);
     bool work = true;
     int choice;
@@ -23,6 +24,9 @@ int main()
         switch (choice) {
             case 1:
                 simulateDay();
+                if (checkPopulation() == false) {
+                    work = false;
+                }
                 continue;
             case 2:
                 continue;
@@ -62,6 +66,14 @@ void simulateDay() {
     recovered = recovered + newrecovered;
     day++;
     showPopulation();
+}
+bool checkPopulation() {
+    if (susceptible < 0 || infected < 0 || recovered < 0 || susceptible + infected + recovered != 100) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 
