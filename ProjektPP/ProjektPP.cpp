@@ -11,6 +11,7 @@ double recoveryRate = 0.10;
 void showPopulation();
 void simulateDay();
 bool checkPopulation();
+void changeParameters();
 
 int main()
 {
@@ -29,6 +30,7 @@ int main()
                 }
                 continue;
             case 2:
+                changeParameters();
                 continue;
             case 3:
                 cout << "Simulaton end";
@@ -73,6 +75,22 @@ bool checkPopulation() {
     }
     else {
         return true;
+    }
+}
+void changeParameters() {
+    double tempnewinfectionRate;
+    double tempnewrecoveryRate;
+    cout << "Please give new infection rate: ";
+    cin >> tempnewinfectionRate;
+    cout << "Please give new recovery rate: ";
+    cin >> tempnewrecoveryRate;
+    if (tempnewinfectionRate > 0 && tempnewrecoveryRate > 0) {
+        infectionRate = tempnewinfectionRate;
+        recoveryRate = tempnewrecoveryRate;
+    }
+    else {
+        cout << "ERROR! Please give correct parameters" << endl;
+        changeParameters();
     }
 }
 
