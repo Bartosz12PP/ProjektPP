@@ -16,7 +16,6 @@ void changeParameters();
 int main()
 {
     showPopulation();
-    //showPopulation(day, susceptible, infected, recovered);
     bool work = true;
     int choice;
     while (work == true) {
