@@ -2,12 +2,12 @@
 #include <cmath>
 
 using namespace std;
-int populationHistory[MAX_DAYS + 1][3];
+const int MAX_DAYS= 100;
+int populationHistory[MAX_DAYS + 1][3] = {};
 int susceptible = 80;
 int infected = 10;
 int recovered = 10;
 int day = 0;
-const int MAX_DAYS= 100;
 int dailyNewInfections[MAX_DAYS] = {};
 int dailyRecoveries[MAX_DAYS] = {};
 double infectionRate = 0.20;
@@ -27,15 +27,12 @@ int main()
     populationHistory[0][1] = infected;
     populationHistory[0][2] = recovered;
     while (work == true) {
-        cout << "=== Epidemic Simulator ===\n1. Simulate next day\n2. Change model parameters\n3. Exit" << endl;
+        cout << "=== Epidemic Simulator ===\n1. Simulate next day\n2. Change model parameters\n3. Exit\n4. Show history" << endl;
         cin >> choice;
         switch (choice) {
             case 1:
                 simulateDay();
                 if (checkPopulation() == false) {
-                    work = false;
-                }
-                if (day >= MAX_DAYS) {
                     work = false;
                 }
                 continue;
@@ -46,6 +43,9 @@ int main()
                 cout << "Simulaton end";
                 work = false;
                 break;
+            case 4:
+                showSimulationHistory();
+                continue;
             default:
                 cout << "please choose one of the options" << endl;
                 continue;
@@ -65,6 +65,19 @@ void showPopulation() {
     }*/
 }
 void simulateDay() {
+    if (day >= MAX_DAYS) {
+        cout << "Osiagnieto maksymalna liczbe dni!" << endl;
+        return;
+    }
+    if (day >= 0 && day <= MAX_DAYS)
+    {
+        cout << "Dzień jest niepoprawny";
+        return;
+    }
+    if (day - 1 >= 0 && day - 1 < MAX_DAYS) {
+        cout << "Dzień jest niepoprawny";
+        return;
+    }
     int morningInfected = infected;
     int newinfected = floor(morningInfected * infectionRate);
     int newrecovered = floor(morningInfected * recoveryRate);
@@ -82,11 +95,16 @@ void simulateDay() {
     infected = infected + newinfected - newrecovered;
     recovered = recovered + newrecovered;
     day++;
-    populationHistory[day][0] = susceptible;
-    populationHistory[day][1] = infected;
-    populationHistory[day][2] = recovered;
-    dailyNewInfections[day - 1] = newinfected;
-    dailyRecoveries[day - 1] = newrecovered;
+    if (day >= 0 && day <= MAX_DAYS) {
+        populationHistory[day][0] = susceptible;
+        populationHistory[day][1] = infected;
+        populationHistory[day][2] = recovered;
+    }
+
+    if (day - 1 >= 0 && day - 1 < MAX_DAYS) {
+        dailyNewInfections[day - 1] = newinfected;
+        dailyRecoveries[day - 1] = newrecovered;
+    }
     showPopulation();
 }
 bool checkPopulation() {
